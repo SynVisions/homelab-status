@@ -15,9 +15,6 @@
 
 
 name: Static Site CI
-concurrency:
-  group: upptime-${{ github.repository }}-${{ github.ref_name || github.event.repository.default_branch }}
-  cancel-in-progress: false
 on:
   schedule:
     - cron: "0 1 * * *"
@@ -33,7 +30,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref || github.ref_name }}
+          ref: ${{ github.head_ref }}
           token: ${{ secrets.GH_PAT || github.token }}
       - name: Generate site
         uses: upptime/uptime-monitor@v1.41.3
