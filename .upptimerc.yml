@@ -3,9 +3,7 @@ repo: homelab-status
 user-agent: SynVisions
 
 status-website:
-  # cname is added in Task 03 — leave commented for now so the site
-  # builds at the default github.io URL until DNS is wired.
-  # cname: status.syntheticvisions.net
+  cname: status.syntheticvisions.net
   logoUrl: ""
   name: "Homelab Status"
   introTitle: "Status of homelab-hosted external services."
