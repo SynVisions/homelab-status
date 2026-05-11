@@ -15,7 +15,7 @@ status-website:
 
 sites:
   - name: Plex
-    url: https://plex.syntheticvisions.net.invalid/identity
+    url: https://plex.syntheticvisions.net/identity
     expectedStatusCodes: [200]
     __dangerous__body_down_if_text_missing: "machineIdentifier"
   - name: Overseerr
