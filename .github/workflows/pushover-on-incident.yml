@@ -1,0 +1,34 @@
+name: Pushover on incident
+on:
+  issues:
+    types: [opened, closed]
+
+jobs:
+  notify:
+    if: contains(github.event.issue.labels.*.name, 'status')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Pushover notification
+        env:
+          PUSHOVER_APP_TOKEN: ${{ secrets.PUSHOVER_APP_TOKEN }}
+          PUSHOVER_USER_KEY: ${{ secrets.PUSHOVER_USER_KEY }}
+          ISSUE_ACTION: ${{ github.event.action }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+        run: |
+          set -euo pipefail
+          case "${ISSUE_ACTION}" in
+            opened) verb="DOWN"; prio=1 ;;
+            closed) verb="UP"; prio=0 ;;
+            *) echo "Unhandled action ${ISSUE_ACTION}"; exit 0 ;;
+          esac
+          title="[homelab] ${verb}: ${ISSUE_TITLE}"
+          curl -sS --fail-with-body \
+            -F "token=${PUSHOVER_APP_TOKEN}" \
+            -F "user=${PUSHOVER_USER_KEY}" \
+            -F "title=${title}" \
+            -F "message=${ISSUE_URL}" \
+            -F "priority=${prio}" \
+            -F "url=${ISSUE_URL}" \
+            -F "url_title=GitHub issue" \
+            https://api.pushover.net/1/messages.json
