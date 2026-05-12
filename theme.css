@@ -325,6 +325,7 @@ nav {
 }
 
 /* --- Service cards (article elements) --- */
+section.live-status article,
 article.link {
   background: var(--bg-1) !important;
   border: 1px solid var(--border) !important;
@@ -332,14 +333,20 @@ article.link {
   padding: 20px 24px !important;
 }
 
-section.live-status article {
-  background: var(--bg-1) !important;
-  border-top: 1px solid var(--border) !important;
-  border-right: 1px solid var(--border) !important;
-  border-bottom: 1px solid var(--border) !important;
-  /* border-left handled by Upptime's article.up / .down / .degraded rules */
-  border-radius: 0 !important;
-  padding: 20px 24px !important;
+/* --- Status indicator: wide coloured left border on live-status cards.
+   Higher specificity (section.live-status article.up) beats both our
+   article.link shorthand and Upptime's article.up rule, regardless of
+   source order. --- */
+section.live-status article.up {
+  border-left: 4px solid var(--mint-400) !important;
+}
+
+section.live-status article.down {
+  border-left: 4px solid var(--red-400) !important;
+}
+
+section.live-status article.degraded {
+  border-left: 4px solid var(--amber-400) !important;
 }
 
 section.live-status article h4,
