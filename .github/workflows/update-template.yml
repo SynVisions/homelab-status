@@ -16,14 +16,11 @@
 
 name: Update Template CI
 on:
-  # schedule:
-  #   - cron: "0 0 * * *"   # disabled by bundle 0078; manual via workflow_dispatch only
+  schedule:
+    - cron: "0 0 * * *"
   repository_dispatch:
     types: [update_template]
   workflow_dispatch:
-concurrency:
-  group: upptime-pushers
-  cancel-in-progress: false
 jobs:
   release:
     name: Build
