@@ -21,9 +21,6 @@ on:
   repository_dispatch:
     types: [graphs]
   workflow_dispatch:
-concurrency:
-  group: upptime-pushers
-  cancel-in-progress: false
 jobs:
   release:
     name: Generate graphs
