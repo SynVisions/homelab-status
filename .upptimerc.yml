@@ -4,8 +4,8 @@ user-agent: SynVisions
 
 status-website:
   cname: status.syntheticvisions.net
-  logoUrl: "/logo.svg"
-  faviconSvg: "/favicon.svg"
+  logoUrl: "https://cdn.jsdelivr.net/gh/SynVisions/homelab-status@d582c45/assets/logo.svg"
+  faviconSvg: "https://cdn.jsdelivr.net/gh/SynVisions/homelab-status@d582c45/assets/favicon.svg"
   name: "Homelab Status"
   introTitle: "Status of homelab-hosted external services."
   introMessage: |
@@ -13,7 +13,7 @@ status-website:
     externally-facing services hosted on the operator's homelab.
     For an outage you don't see called out below, the operator may not
     know yet — please reach out.
-  themeUrl: "/theme.css"
+  themeUrl: "https://cdn.jsdelivr.net/gh/SynVisions/homelab-status@d582c45/assets/theme.css"
   customHeadHtml: |
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
