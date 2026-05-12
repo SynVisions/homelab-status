@@ -333,20 +333,32 @@ article.link {
   padding: 20px 24px !important;
 }
 
-/* --- Status indicator: wide coloured left border on live-status cards.
-   Higher specificity (section.live-status article.up) beats both our
-   article.link shorthand and Upptime's article.up rule, regardless of
-   source order. --- */
-section.live-status article.up {
+/* --- Status indicator: wide coloured left border on every status card.
+   Applies in Live Status, Past Incidents, and Past Scheduled Maintenance
+   sections — every article that Upptime renders with a status class also
+   has .link, so article.link.X (specificity 0,2,1) beats both our
+   article.link shorthand (0,1,1) and Upptime's article.X (0,1,1)
+   regardless of source order. --- */
+article.link.up {
   border-left: 4px solid var(--mint-400) !important;
 }
 
-section.live-status article.down {
+article.link.down {
   border-left: 4px solid var(--red-400) !important;
 }
 
-section.live-status article.degraded {
+article.link.degraded {
   border-left: 4px solid var(--amber-400) !important;
+}
+
+/* Active incidents: full red outline + red-tinted background.
+   Listed AFTER article.link.down so that for articles carrying both
+   .down and .down-active, this rule wins via source order at equal
+   specificity. */
+article.link.down-active {
+  border: 1px solid var(--red-400) !important;
+  border-left: 4px solid var(--red-400) !important;
+  background: var(--down-background-color) !important;
 }
 
 section.live-status article h4,
@@ -413,6 +425,55 @@ article.link > div {
 .tag.maintenance {
   background-color: var(--bg-2) !important;
   color: var(--fg-1) !important;
+}
+
+/* --- Form controls (rate-limit page, etc.) --- */
+main form input[type="text"],
+main form input[type="password"] {
+  background: var(--bg-inset) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--fg-0) !important;
+  font-family: var(--font-mono) !important;
+  font-size: var(--body-sm-size) !important;
+  padding: 10px 12px !important;
+  border-radius: 0 !important;
+}
+
+main form input[type="text"]:focus,
+main form input[type="password"]:focus {
+  outline: 2px solid var(--accent-ring) !important;
+  outline-offset: -1px !important;
+  border-color: var(--accent) !important;
+}
+
+main form button,
+button.submit-button {
+  background: var(--accent) !important;
+  color: var(--fg-on-accent) !important;
+  border: 1px solid var(--accent) !important;
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  padding: 10px 16px !important;
+  border-radius: 0 !important;
+  cursor: pointer !important;
+}
+
+main form button:hover,
+button.submit-button:hover {
+  background: var(--accent-hover) !important;
+  border-color: var(--accent-hover) !important;
+}
+
+button.error-button {
+  background: transparent !important;
+  color: var(--fg-1) !important;
+  border: 1px solid var(--border) !important;
+  font-family: var(--font-display) !important;
+  font-weight: 500 !important;
+  padding: 10px 16px !important;
+  border-radius: 0 !important;
+  cursor: pointer !important;
 }
 
 /* --- Footer --- */
