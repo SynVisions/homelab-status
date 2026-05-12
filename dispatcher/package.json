@@ -1,0 +1,16 @@
+{
+  "name": "homelab-status-dispatcher",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cloudflare Worker that POSTs repository_dispatch to SynVisions/homelab-status every 5 minutes.",
+  "scripts": {
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "jose": "^5.9.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250101.0",
+    "wrangler": "^4.0.0"
+  }
+}

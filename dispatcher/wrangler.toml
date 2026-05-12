@@ -1,0 +1,13 @@
+name = "homelab-status-dispatcher"
+main = "src/index.ts"
+compatibility_date = "2026-05-12"
+workers_dev = false
+
+[triggers]
+crons = [ "*/5 * * * *" ]
+
+[vars]
+GITHUB_APP_ID = "3689617"
+GITHUB_APP_INSTALLATION_ID = "131739030"
+GITHUB_OWNER = "SynVisions"
+GITHUB_REPO = "homelab-status"
