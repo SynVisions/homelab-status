@@ -7,6 +7,14 @@ status-website:
   logoUrl: "https://cdn.jsdelivr.net/gh/SynVisions/homelab-status@d582c45/assets/logo.svg"
   faviconSvg: "https://cdn.jsdelivr.net/gh/SynVisions/homelab-status@d582c45/assets/favicon.svg"
   name: "Homelab Status"
+  # Cache GitHub API responses in visitor localStorage for 30 minutes (default
+  # 2 min). The client makes 4 unauthenticated api.github.com calls per page
+  # load (issues/incidents/maintenance), and GitHub limits unauthenticated
+  # requests to 60 req/hr per IP. The longer window means repeat visitors
+  # don't re-hit the limit on every refresh. First visit per visitor still
+  # pays the full cost — the proper fix is a server-side proxy injecting a
+  # PAT (tracked in a follow-up bundle).
+  productionCacheTime: 1800000
   introTitle: "Status of homelab-hosted external services."
   introMessage: |
     This page reports the current and historical reachability of the
