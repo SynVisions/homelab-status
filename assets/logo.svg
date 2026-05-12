@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 140" fill="none">
+  <title>SyntheticVisions banner lockup (dark surface)</title>
+
+  
+  <g transform="translate(14 14) scale(1.4)" fill="none">
+    <circle cx="40" cy="40" r="38" stroke="#f3f1ea" stroke-width="0.75" opacity="0.55"></circle>
+    <g stroke="#f3f1ea" stroke-linecap="round" stroke-width="0.9" opacity="0.7">
+      <line x1="40" y1="1.5" x2="40" y2="5"></line>
+      <line x1="40" y1="75" x2="40" y2="78.5"></line>
+      <line x1="1.5" y1="40" x2="5" y2="40"></line>
+      <line x1="75" y1="40" x2="78.5" y2="40"></line>
+    </g>
+    <g stroke="#f3f1ea" stroke-width="0.4" opacity="0.55">
+      <path d="M 64.25 26 A 28 28 0 0 1 64.25 54 L 46.93 44 L 46.93 36 Z" fill="#7CFFB2" fill-opacity="0.14"></path>
+      <path d="M 64.25 54 A 28 28 0 0 1 40 68 L 40 48 L 46.93 44 Z" fill="#7CFFB2" fill-opacity="0.07"></path>
+      <path d="M 40 68 A 28 28 0 0 1 15.75 54 L 33.07 44 L 40 48 Z" fill="#7CFFB2" fill-opacity="0.14"></path>
+      <path d="M 15.75 54 A 28 28 0 0 1 15.75 26 L 33.07 36 L 33.07 44 Z" fill="#7CFFB2" fill-opacity="0.07"></path>
+      <path d="M 15.75 26 A 28 28 0 0 1 40 12 L 40 32 L 33.07 36 Z" fill="#7CFFB2" fill-opacity="0.14"></path>
+    </g>
+    <path d="M 40 12 A 28 28 0 0 1 64.25 26 L 46.93 36 L 40 32 Z" fill="#7CFFB2" fill-opacity="0.22" stroke="#7CFFB2" stroke-width="0.9"></path>
+    <circle cx="40" cy="40" r="28" stroke="#f3f1ea" stroke-width="0.5" opacity="0.45" fill="none"></circle>
+    <circle cx="40" cy="40" r="7.5" fill="#0a0c0e"></circle>
+    <circle cx="40" cy="40" r="7.5" stroke="#7CFFB2" stroke-width="1.3" fill="none"></circle>
+    <circle cx="40" cy="40" r="4.8" stroke="#7CFFB2" stroke-width="0.45" opacity="0.7" fill="none"></circle>
+    <circle cx="40" cy="40" r="2.3" stroke="#7CFFB2" stroke-width="0.5" opacity="0.85" fill="none"></circle>
+    <rect x="42" y="37" width="1.7" height="1.7" fill="#7CFFB2"></rect>
+  </g>
+
+  <line x1="142" y1="28" x2="142" y2="112" stroke="#f3f1ea" stroke-width="1" opacity="0.35"></line>
+
+  <text x="162" y="78" font-family="&#39;Space Grotesk&#39;, system-ui, sans-serif" font-weight="600" font-size="50" letter-spacing="-0.02em">
+    <tspan fill="#f3f1ea">Synthetic</tspan><tspan fill="#7CFFB2">Visions</tspan>
+  </text>
+
+  <text x="162" y="100" font-family="&#39;JetBrains Mono&#39;, ui-monospace, monospace" font-size="11" letter-spacing="3" fill="#f3f1ea" opacity="0.6">SOFTWARE · GAMES · EXPERIMENTS</text>
+
+  <line x1="162" y1="108" x2="200" y2="108" stroke="#7CFFB2" stroke-width="1.8"></line>
+</svg>
