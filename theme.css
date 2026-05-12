@@ -1,0 +1,418 @@
+/* ============================================================
+   SyntheticVisions — colors_and_type.css
+   Dark-first, industrial. All tokens declared as CSS vars
+   for both raw foundations (--mint-500, --neutral-900) and
+   semantic roles (--bg-0, --fg-1, --h1, etc.).
+   ============================================================ */
+
+/* ---- Fonts (Google Fonts — substituted; flagged in README) ---- */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* ===== RAW SCALES ===== */
+
+  /* Neutrals — cool charcoal, slightly green-tinted so mint feels native */
+  --neutral-1000: #050608;
+  --neutral-950:  #0a0c0e;
+  --neutral-900:  #11141a;
+  --neutral-850:  #161a21;
+  --neutral-800:  #1a1f27;
+  --neutral-750:  #232831;
+  --neutral-700:  #2a2f38;
+  --neutral-600:  #3a4150;
+  --neutral-500:  #555c6a;
+  --neutral-400:  #7a8290;
+  --neutral-300:  #a3aab5;
+  --neutral-200:  #c9ccd2;
+  --neutral-100:  #e4e5e7;
+  --neutral-50:   #f3f1ea;   /* warm off-white — paper-like */
+  --neutral-25:   #faf8f1;
+
+  /* Mint — primary accent. Synthetic green, machine-bright. */
+  --mint-100: #e6fff1;
+  --mint-200: #b8ffd9;
+  --mint-300: #8effc2;
+  --mint-400: #7CFFB2;       /* canonical accent */
+  --mint-500: #4FE095;
+  --mint-600: #2BB873;
+  --mint-700: #1d8956;
+  --mint-800: #145a3a;
+  --mint-900: #0c3825;
+
+  /* Supporting semantic hues — kept low-saturation, industrial */
+  --blue-400:   #5B8CFF;
+  --blue-600:   #2F5BCC;
+  --amber-400:  #FFB454;
+  --amber-600:  #C8862E;
+  --red-400:    #FF6B6B;
+  --red-600:    #CC4040;
+
+  /* ===== SEMANTIC ROLES — DARK (default) ===== */
+
+  /* Surface */
+  --bg-0:        var(--neutral-950);   /* page */
+  --bg-1:        var(--neutral-900);   /* card / panel */
+  --bg-2:        var(--neutral-800);   /* raised / hover */
+  --bg-3:        var(--neutral-750);   /* pressed / nested */
+  --bg-inset:    var(--neutral-1000);  /* inputs, code */
+
+  /* Text */
+  --fg-0:        var(--neutral-50);    /* primary */
+  --fg-1:        var(--neutral-200);   /* secondary */
+  --fg-2:        var(--neutral-400);   /* tertiary / labels */
+  --fg-3:        var(--neutral-500);   /* disabled / placeholder */
+  --fg-on-accent:#062815;              /* text sitting on mint */
+
+  /* Borders & rules */
+  --border:        var(--neutral-700);
+  --border-strong: var(--neutral-600);
+  --border-faint:  rgba(255,255,255,0.06);
+
+  /* Accent */
+  --accent:        var(--mint-400);
+  --accent-hover:  var(--mint-300);
+  --accent-press:  var(--mint-500);
+  --accent-soft:   rgba(124,255,178,0.12);
+  --accent-ring:   rgba(124,255,178,0.35);
+
+  /* Status */
+  --info:    var(--blue-400);
+  --warn:    var(--amber-400);
+  --error:   var(--red-400);
+  --success: var(--mint-400);
+
+  /* ===== TYPE FAMILIES ===== */
+  --font-display: 'Space Grotesk', 'Inter Tight', system-ui, sans-serif;
+  --font-body:    'Geist', 'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* ===== TYPE SCALE (semantic) =====
+     We commit to a strict modular scale at body 16. Display is
+     tight + heavier; body is open + lighter. Mono is the
+     "engineering" voice — labels, metadata, captions. */
+
+  /* Display — Space Grotesk, tight tracking, heavy */
+  --display-1-size:   72px;
+  --display-1-line:   1.02;
+  --display-1-track:  -0.025em;
+  --display-1-weight: 600;
+
+  --display-2-size:   56px;
+  --display-2-line:   1.04;
+  --display-2-track:  -0.022em;
+  --display-2-weight: 600;
+
+  --h1-size: 44px;  --h1-line: 1.08;  --h1-track: -0.02em;   --h1-weight: 600;
+  --h2-size: 32px;  --h2-line: 1.15;  --h2-track: -0.015em;  --h2-weight: 600;
+  --h3-size: 22px;  --h3-line: 1.25;  --h3-track: -0.01em;   --h3-weight: 600;
+  --h4-size: 17px;  --h4-line: 1.35;  --h4-track: 0;         --h4-weight: 600;
+
+  /* Body — Geist, open */
+  --body-lg-size: 18px; --body-lg-line: 1.55;
+  --body-size:    16px; --body-line:    1.6;
+  --body-sm-size: 14px; --body-sm-line: 1.55;
+  --caption-size: 12px; --caption-line: 1.45;
+
+  /* Mono — JetBrains Mono, used for: code, metadata, ALL-CAPS eyebrows, numbers */
+  --mono-size:    13px; --mono-line:    1.55;
+  --mono-sm-size: 11px; --mono-sm-line: 1.5;
+  --eyebrow-track: 0.18em;   /* tracked-out mono small-caps eyebrow */
+
+  /* ===== SPACING ===== */
+  --space-0:  0;
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-7:  48px;
+  --space-8:  64px;
+  --space-9:  96px;
+  --space-10: 128px;
+
+  /* ===== RADII =====
+     Industrial = sharp. We use 0 by default, 4 for inputs,
+     8 for cards, and pill only for tags/avatars. */
+  --radius-0:    0;
+  --radius-xs:   2px;
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-pill: 999px;
+
+  /* ===== BORDERS / RULES ===== */
+  --border-width-hair: 1px;
+  --border-width-line: 1.5px;
+  --border-width-bold: 2px;
+
+  /* ===== ELEVATION =====
+     Industrial doesn't use heavy drop shadows. We rely on
+     borders for separation; shadows are reserved for floating
+     surfaces (menus, dialogs). */
+  --shadow-flat:    none;
+  --shadow-pop:     0 1px 0 rgba(255,255,255,0.04) inset, 0 8px 24px rgba(0,0,0,0.45);
+  --shadow-float:   0 1px 0 rgba(255,255,255,0.05) inset, 0 24px 60px rgba(0,0,0,0.55);
+  --shadow-accent-glow: 0 0 0 1px var(--accent-ring), 0 0 24px rgba(124,255,178,0.18);
+
+  /* ===== MOTION =====
+     Mostly fast & precise. No bounces. Subtle ease-out on most.
+     Ease-in-out only for sustained state changes. */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast:   120ms;
+  --dur-base:   180ms;
+  --dur-slow:   320ms;
+
+  /* ===== Z =====*/
+  --z-base: 1;
+  --z-raised: 10;
+  --z-overlay: 100;
+  --z-modal: 1000;
+}
+
+/* ============================================================
+   APPLIED — element defaults
+   Drop this stylesheet into a page and headings/body work out
+   of the box. Component CSS lives in the UI kit.
+   ============================================================ */
+
+html, body {
+  background: var(--bg-0);
+  color: var(--fg-0);
+  font-family: var(--font-body);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--fg-on-accent);
+}
+
+h1, .h1 {
+  font-family: var(--font-display);
+  font-size: var(--h1-size); line-height: var(--h1-line);
+  letter-spacing: var(--h1-track); font-weight: var(--h1-weight);
+  margin: 0;
+}
+h2, .h2 {
+  font-family: var(--font-display);
+  font-size: var(--h2-size); line-height: var(--h2-line);
+  letter-spacing: var(--h2-track); font-weight: var(--h2-weight);
+  margin: 0;
+}
+h3, .h3 {
+  font-family: var(--font-display);
+  font-size: var(--h3-size); line-height: var(--h3-line);
+  letter-spacing: var(--h3-track); font-weight: var(--h3-weight);
+  margin: 0;
+}
+h4, .h4 {
+  font-family: var(--font-display);
+  font-size: var(--h4-size); line-height: var(--h4-line);
+  letter-spacing: var(--h4-track); font-weight: var(--h4-weight);
+  margin: 0;
+}
+
+.display-1 {
+  font-family: var(--font-display);
+  font-size: var(--display-1-size); line-height: var(--display-1-line);
+  letter-spacing: var(--display-1-track); font-weight: var(--display-1-weight);
+}
+.display-2 {
+  font-family: var(--font-display);
+  font-size: var(--display-2-size); line-height: var(--display-2-line);
+  letter-spacing: var(--display-2-track); font-weight: var(--display-2-weight);
+}
+
+p, .body { font-size: var(--body-size); line-height: var(--body-line); }
+.body-lg { font-size: var(--body-lg-size); line-height: var(--body-lg-line); }
+.body-sm { font-size: var(--body-sm-size); line-height: var(--body-sm-line); }
+.caption { font-size: var(--caption-size); line-height: var(--caption-line); color: var(--fg-2); }
+
+code, kbd, samp, pre, .mono {
+  font-family: var(--font-mono);
+  font-size: var(--mono-size); line-height: var(--mono-line);
+  font-feature-settings: "ss01", "cv11";
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--mono-sm-size);
+  letter-spacing: var(--eyebrow-track);
+  text-transform: uppercase;
+  color: var(--fg-2);
+  font-weight: 500;
+}
+
+/* Hairline divider — used liberally. Industrial = lots of rules. */
+hr, .rule {
+  border: 0;
+  border-top: var(--border-width-hair) solid var(--border);
+  margin: var(--space-5) 0;
+}
+
+/* === Upptime overrides === */
+
+/* --- Upptime theme variable mappings ---
+   global.css reads these vars to paint the SPA. We define them
+   here so they resolve to our SV brand tokens. */
+:root {
+  --body-background-color:        var(--bg-0);
+  --body-text-color:              var(--fg-0);
+
+  --card-background-color:        var(--bg-1);
+  --card-border-color:            var(--border);
+
+  --nav-background-color:         rgba(10, 12, 14, 0.72);
+  --nav-border-bottom-color:      var(--border);
+  --nav-current-border-bottom-color: var(--accent);
+
+  --up-border-left-color:         var(--mint-400);
+  --down-border-left-color:       var(--red-400);
+  --degraded-border-left-color:   var(--amber-400);
+  --down-background-color:        rgba(255, 107, 107, 0.08);
+
+  --tag-color:                    var(--fg-0);
+  --tag-up-background-color:      var(--mint-400);
+  --tag-down-background-color:    var(--red-400);
+  --tag-degraded-background-color: var(--amber-400);
+
+  --change-background-color:      var(--bg-2);
+  --code-color:                   var(--mint-400);
+  --code-background-color:        var(--bg-inset);
+
+  --graph-opacity:                0.9;
+  --graph-filter:                 none;
+}
+
+/* --- Base overrides ---
+   global.css declares direct property rules that cascade after
+   us; these need !important to win. */
+body {
+  background-color: var(--bg-0) !important;
+  font-family: var(--font-body) !important;
+  color: var(--fg-0) !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+}
+
+.container {
+  max-width: 1200px !important;
+}
+
+article {
+  border-radius: 0 !important;
+}
+
+/* --- Sticky nav ---
+   Svelte scoped — double selector needed to beat component style. */
+nav {
+  background: rgba(10, 12, 14, 0.72) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid var(--border) !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: var(--z-raised) !important;
+}
+
+/* --- Service cards (article elements) --- */
+section.live-status article,
+article.link {
+  background: var(--bg-1) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 0 !important;
+  padding: 20px 24px !important;
+}
+
+section.live-status article h4,
+article.link h4 {
+  font-family: var(--font-display) !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  margin-bottom: 8px !important;
+}
+
+section.live-status article h4 a,
+article.link h4 a {
+  color: var(--fg-0) !important;
+  text-decoration: none !important;
+}
+
+section.live-status article > div,
+article.link > div {
+  font-family: var(--font-body) !important;
+  font-size: var(--body-sm-size) !important;
+  color: var(--fg-1) !important;
+}
+
+/* --- Status pills/badges (.tag) --- */
+.tag {
+  font-family: var(--font-mono) !important;
+  font-size: 10px !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  padding: 4px 9px !important;
+  border-radius: var(--radius-pill) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  color: var(--fg-on-accent) !important;
+}
+
+.tag::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.tag.up {
+  background-color: var(--mint-400) !important;
+  color: var(--fg-on-accent) !important;
+}
+
+.tag.down {
+  background-color: var(--red-400) !important;
+  color: #1a0505 !important;
+}
+
+.tag.degraded {
+  background-color: var(--amber-400) !important;
+  color: #1a0e00 !important;
+}
+
+.tag.maintenance {
+  background-color: var(--bg-2) !important;
+  color: var(--fg-1) !important;
+}
+
+/* --- Footer --- */
+footer {
+  border-top: 1px solid var(--border) !important;
+  color: var(--fg-2) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 12px !important;
+}
+
+/* --- Dot-grid background ---
+   currentColor in SVG background-image resolves to black (no element context),
+   so the kit's dot-grid.svg would be invisible on our dark page. Inline
+   a data URI with explicit white dots at the plan's 4% alpha instead. */
+body {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='1' cy='1' r='1' fill='white' opacity='0.04'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: auto;
+}
