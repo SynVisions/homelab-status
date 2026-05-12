@@ -344,10 +344,19 @@ status-website:
     }
     
     /* --- Service cards (article elements) --- */
-    section.live-status article,
     article.link {
       background: var(--bg-1) !important;
       border: 1px solid var(--border) !important;
+      border-radius: 0 !important;
+      padding: 20px 24px !important;
+    }
+
+    section.live-status article {
+      background: var(--bg-1) !important;
+      border-top: 1px solid var(--border) !important;
+      border-right: 1px solid var(--border) !important;
+      border-bottom: 1px solid var(--border) !important;
+      /* border-left handled by Upptime's article.up / .down / .degraded rules */
       border-radius: 0 !important;
       padding: 20px 24px !important;
     }
