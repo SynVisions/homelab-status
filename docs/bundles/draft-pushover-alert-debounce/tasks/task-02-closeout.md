@@ -46,9 +46,9 @@ Both rehearsals are gated on the user being available to receive (or NOT receive
 
       *Verification:* `gh issue view <N> --repo SynVisions/homelab-status --json labels -q '.labels[].name'` contains `pushover-sent`. User confirms two Pushovers received (one DOWN at T~20min, one UP shortly after close). `gh run list --repo SynVisions/homelab-status --workflow "Pushover on incident" --limit 2` shows two runs, both `success`.
 
-- [ ] **Step 5 — Mandatory `advisor()` call.** Before flipping `implementation_status: completed`, invoke `advisor()`. The advisor sees the full conversation including both rehearsals' outcomes and probes for gaps the rehearsals didn't cover (e.g. concurrent multi-service outages, label-race edge cases, what happens if Upptime deletes the issue while we're sleeping). Embed the verdict in the closeout commit message.
+- [ ] **Step 5 — Mandatory `advisor()` call.** Before flipping `implementation_status: completed`, invoke `advisor()`. The advisor sees the full conversation including both rehearsals' outcomes and probes for gaps the rehearsals didn't cover (e.g. concurrent multi-service outages, label-race edge cases, what happens if Upptime deletes the issue while we're sleeping). Paste a 1–3 sentence verdict summary into the worklog for this task, and copy that same summary verbatim into the body of the closeout commit message that `/exec-task` writes when this task completes (Step 7's frontmatter flip is the last edit before that commit).
 
-      *Verification:* Advisor invocation occurred this turn; verdict summary pasted into the worklog for this task.
+      *Verification:* Advisor invocation occurred this turn; verdict summary pasted into the worklog for this task and visible in `git log -1 --format=%B HEAD` after the task-completion commit.
 
 - [ ] **Step 6 — Bundle hygiene gates.** Run gitleaks over the bundle and confirm the docs/bundles INDEX is current.
 

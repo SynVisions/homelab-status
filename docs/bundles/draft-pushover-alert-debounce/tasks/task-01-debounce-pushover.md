@@ -18,7 +18,7 @@ The sleep happens on a GitHub-hosted runner. The repo is public, so GitHub-hoste
 
 - [ ] **Step 2 — Read the current workflow into context.** Open `.github/workflows/pushover-on-incident.yml` and confirm it still matches the shape recorded in `../implementation-plan.md` § Preconditions (35 lines, single `notify` job, fires on both `opened` and `closed`). If it has been edited since this plan was drafted, surface the diff to the user before continuing — the per-event split assumes the current body.
 
-      *Verification:* `wc -l .github/workflows/pushover-on-incident.yml` returns 35 and `grep -c 'on:' .github/workflows/pushover-on-incident.yml` shows the existing single `on:` block.
+      *Verification:* `wc -l .github/workflows/pushover-on-incident.yml` returns 34 and `grep -c 'on:' .github/workflows/pushover-on-incident.yml` shows the existing single `on:` block.
 
 - [ ] **Step 3 — Replace the workflow.** Overwrite `.github/workflows/pushover-on-incident.yml` with the version below. The two jobs share the `if:` label gate but key on `github.event.action` so they are mutually exclusive per workflow run.
 

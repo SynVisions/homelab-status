@@ -105,3 +105,29 @@ Informational; not asked interactively. The bundle proceeds without `sync-main` 
 **STATUS: RESOLVED**
 
 ---
+
+## Q6. Do we do the NNNN allocation + directory rename + INDEX row by hand, or skip the SDLC bundle-numbering ceremony entirely?
+
+**Recommendation:** Do it by hand at plan-acceptance time. The `bundle-merge` helper is hardcoded to `refs/heads/main` and so cannot run in this `master`-branch repo — but the rename-mode work it would have done at plan-only first-acceptance (allocate the next free NNNN — `0001`, since `docs/bundles/INDEX.md` is empty; `git mv docs/bundles/draft-pushover-alert-debounce docs/bundles/0001-pushover-alert-debounce`; set `number: 0001` in `implementation-plan.md` frontmatter; append an INDEX row above the `<!-- bundle-merge: insert new rows above this line. -->` marker) is independent of branch naming and worth preserving. Without it, this bundle stays as `draft-pushover-alert-debounce` forever, never gets an INDEX row, and is discoverable only by directory scan — at odds with every other bundle the SDLC plugin will produce in this repo.
+
+**Why this and not the alternative(s):** The alternative is to lean on Q5's "treat this as a no-op until SDLC plugin is patched for `master`" posture and skip the ceremony entirely. That keeps the acceptance turn smaller, but creates two follow-ups: (a) document that `draft-*` directories in this repo are acceptable, contradicting `docs/bundles/README.md` § Layout; (b) decide what `bundle-merge` should do to this bundle when it eventually runs against a future bundle in the same repo — it might see the existing `draft-*` and try to allocate `0001` against a slug that already lives under `draft-`. Manual ceremony avoids both follow-ups at the cost of ~5 minutes of editing now.
+
+**Cost of override:** If you choose "skip ceremony entirely": remove the rename step from acceptance, drop the INDEX-row verification from Task 02 Step 6, and accept `draft-pushover-alert-debounce` as a permanent slug. The bundle's eventual fate (archive, reference from another bundle's design) becomes harder to wire up.
+
+If you choose recommendation: this turn, before flipping `implementation_status: draft → active`:
+1. `git mv docs/bundles/draft-pushover-alert-debounce docs/bundles/0001-pushover-alert-debounce` (run from inside the worktree).
+2. Add `number: 0001` to `implementation-plan.md` frontmatter (between `slug:` and `design_status:`).
+3. Append `| 0001 | pushover-alert-debounce | none | active | |` to `docs/bundles/INDEX.md` directly above the `<!-- bundle-merge: insert new rows above this line. -->` marker.
+4. Rename the branch: `git branch -m bundle/draft-pushover-alert-debounce bundle/0001-pushover-alert-debounce`.
+5. The worktree directory at `.claude/worktrees/draft-pushover-alert-debounce` stays put — `bundle-merge`'s rename mode intentionally does not rename worktree paths (`design 0059` § Architecture), and we mirror that here.
+6. Task 02 Step 6 (INDEX grep) and Step 8 (manual merge sequence + worktree-remove path) get updated to reference the new bundle directory and branch name.
+
+### User Feedback
+
+The user is working on a fix to the SDLC plugin so `sync-main` and `bundle-merge` support repositories whose primary branch is `master`. Plan acceptance for this bundle is deferred until that fix is in: once `sync-main` / `bundle-merge` can target `refs/heads/master`, both Q5 and Q6 collapse into "let the plugin do the work" and a follow-up `/review-plan` turn will flip `implementation_status: draft → active` via the normal ceremony.
+
+**Resolution (pending):** Once the plugin fix lands and is installed, re-invoke `/review-plan`. The pre-flight `sync-main` should succeed (this worktree is already current with `master`); the acceptance ceremony then runs `bundle-merge` in rename mode, which allocates `0001`, `git mv`s the bundle directory to `docs/bundles/0001-pushover-alert-debounce/`, renames the branch to `bundle/0001-pushover-alert-debounce`, sets `number: 0001` in frontmatter, and appends the INDEX row. At that point Q5 (manual ff-merge at closeout) also collapses: Task 02 Step 8 can be replaced with `bundle-merge` again. Both Q5 and Q6 should be re-resolved (and re-RESOLVED) in that turn; this turn just records the deferral.
+
+**STATUS: OPEN**
+
+---
