@@ -8,4 +8,5 @@ See [`README.md`](README.md) for bundle conventions, lifecycle, and the meaning 
 
 | #    | Slug | design_status | implementation_status | derived_from |
 |------|------|---------------|-----------------------|--------------|
+| 0001 | pushover-alert-debounce | none | active |  |
 <!-- bundle-merge: insert new rows above this line. -->
