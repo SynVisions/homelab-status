@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Refuse commits with unstaged changes. Runs BEFORE the
+# pre-commit framework's auto-stash (staged_files_only.py),
+# which would otherwise create a refs/stash entry shared
+# across linked worktrees. See docs/bundles/0059-parallel-
+# agent-isolation/design.md § Architecture component 3.
+set -e
+if ! git diff --quiet; then
+  echo "ERROR: working tree has unstaged changes; pre-commit refuses to auto-stash" >&2
+  echo "Stage explicitly with: git add -A   (or the intended subset)" >&2
+  git diff --name-only >&2
+  exit 1
+fi
+# Delegate to the pre-commit framework's installed hook if present.
+# The framework installs `.git/hooks/pre-commit` via `pre-commit install`;
+# if that file exists we exec it directly so the framework's behaviour is
+# unchanged once the guard passes. If not, this hook is the whole story.
+chained="$(git rev-parse --git-common-dir)/hooks/pre-commit"
+if [ -x "$chained" ]; then
+  exec "$chained" "$@"
+fi

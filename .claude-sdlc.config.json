@@ -1,0 +1,8 @@
+{
+  "secret_scanner": "gitleaks",
+  "secret_scanner_invocation": "gitleaks detect --source",
+  "secret_scanner_history_invocation": "gitleaks detect --log-opts=--all --source",
+  "project_archetype": "application-node",
+  "has_host_concept": false,
+  "commit_mode": "agent_commits"
+}
