@@ -350,6 +350,33 @@ status-website:
       top: 0 !important;
       z-index: var(--z-raised) !important;
     }
+
+    /* --- Mobile nav fit ---
+       The brand banner (assets/logo.svg) is a 640×140 lockup; at the
+       desktop 3rem height it renders ~219px wide, which plus the
+       "Homelab Status" label and global.css's 2rem .container padding
+       overflows iPhone-class viewports (≤414px). Upptime's Nav.svelte
+       sets overflow-x: auto on <nav>, so the excess becomes a sideways
+       scroll instead of clipping — which is what the user sees as
+       "the header overflows to the right". On narrow screens shrink
+       the banner, tighten the container padding, and drop the redundant
+       page-title text (the browser tab and on-page hero already
+       identify the page). --- */
+    @media (max-width: 700px) {
+      nav .container {
+        padding: 0 1rem !important;
+      }
+      nav .logo {
+        margin-right: 0 !important;
+      }
+      nav .logo img {
+        height: 2rem !important;
+        margin-right: 0.75rem !important;
+      }
+      nav .logo > div {
+        display: none !important;
+      }
+    }
     
     /* --- Service cards (article elements) --- */
     section.live-status article,
