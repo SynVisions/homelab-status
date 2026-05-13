@@ -2,13 +2,15 @@
 
 ## Goal
 
-Verify the new workflow exercises end-to-end with a manually-fabricated open/close cycle, then flip the bundle to `completed` and merge to `master`.
+Land Task 01's workflow edit on `master` (so GitHub Actions actually picks up the new file), verify it end-to-end with two live rehearsals, then flip the bundle to `completed` and tear down the worktree.
 
 ## Preamble
 
-The closeout includes a live rehearsal against the actual `pushover-on-incident.yml` running in GitHub Actions. The rehearsal involves opening a synthetic test issue with the `status` label, observing the debounce wait, then closing the issue before T+20min — confirming that no Pushover fires on the early-close path. A second rehearsal (open, wait past T+20min, then close) confirms the page-then-up path.
+The deploy-before-rehearse order matters. GitHub Actions resolves `on: issues:` workflow-file versions from the **default branch only** (per [docs/actions/events-that-trigger-workflows § issues](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)). A version of `pushover-on-incident.yml` sitting on `bundle/0001-pushover-alert-debounce` does NOT fire for `issues.opened` / `issues.closed` — the workflow that fires is whatever is on `master` at issue-event time. So the rehearsals can only exercise the new dual-job workflow after `bundle-merge` has advanced `master` to include Task 01's commit.
 
-Both rehearsals are gated on the user being available to receive (or NOT receive) the test Pushover. If the user is asleep / unavailable, the executor must pause and surface the gate to the user before proceeding.
+The rehearsals are gated on the user being available to receive (or NOT receive) the test Pushover. If the user is asleep / unavailable, the executor must pause and surface the gate to the user before proceeding.
+
+This task lives on `bundle/0001-pushover-alert-debounce` (renamed from `bundle/draft-pushover-alert-debounce` by plan-acceptance `bundle-merge`). The worktree path remains `.claude/worktrees/draft-pushover-alert-debounce` — `bundle-merge`'s rename mode intentionally does not move worktree paths.
 
 ## Steps
 
@@ -16,9 +18,19 @@ Both rehearsals are gated on the user being available to receive (or NOT receive
 
       *Verification:* `grep '^| 01 ' ../task-status.md | grep -c completed` returns `1`.
 
-- [ ] **Step 2 — Push the worktree branch and confirm the workflow parses.** Push `bundle/draft-pushover-alert-debounce` to `origin`. Open the Actions tab on GitHub and confirm the "Pushover on incident" workflow shows two jobs (`notify-down`, `notify-up`) under the latest revision; a YAML syntax error would surface here as a red "Invalid workflow file" banner.
+- [ ] **Step 2 — Land Task 01 on `master` and push so the new workflow is actually live on GitHub.** GitHub Actions resolves `on: issues:` workflows from whatever is on `origin/master` (the default branch as GitHub sees it). Local `master` ahead of `origin/master` doesn't help — the rehearsals would still trigger the OLD workflow. So this is a two-step deploy: `bundle-merge` to advance local `master`, then `git push origin master` from the parent checkout to publish.
 
-      *Verification:* `gh workflow list --repo SynVisions/homelab-status --json name,state -q '.[] | select(.name=="Pushover on incident") | .state'` returns `active`. No "Invalid workflow file" annotation against the branch.
+      ```bash
+      # From inside the worktree:
+      bundle-merge
+
+      # From the parent checkout (~/Developer/homelab-status):
+      git push origin master
+      ```
+
+      Direct mode is auto-detected because the branch is `bundle/0001-pushover-alert-debounce` (post plan-acceptance rename). The helper rebases onto `master` and atomically advances `refs/heads/master` to include Task 01's workflow commit. No flags — `--teardown` belongs in Step 8, not here. The push is plain `git push`; there is no `--push` flag on `bundle-merge`.
+
+      *Verification:* `git rev-parse master` equals `git rev-parse HEAD` and equals `git rev-parse origin/master` after the push. `git log -1 origin/master --format=%s` shows Task 01's `feat: debounce pushover by 20 minutes via dual-job workflow` subject. `gh workflow view "Pushover on incident" --repo SynVisions/homelab-status --ref master --yaml | yq '.jobs | keys'` returns `[notify-down, notify-up]`. No "Invalid workflow file" annotation visible at https://github.com/SynVisions/homelab-status/actions.
 
 - [ ] **Step 3 — Rehearsal A: early-close path (must NOT page; issue must be deleted).** Surface to the user that the rehearsal is about to start and they should keep an eye on Pushover for the next ~25 minutes (expecting nothing). Pick the close time deliberately to exercise the 15–20 min `CLOSED → delete` branch — close at T+17min, NOT T+5min, so we verify the `gh issue delete` path (not just Upptime's own 15-min auto-delete, which would moot the test). Then:
 
@@ -50,14 +62,14 @@ Both rehearsals are gated on the user being available to receive (or NOT receive
 
       *Verification:* Advisor invocation occurred this turn; verdict summary pasted into the worklog for this task and visible in `git log -1 --format=%B HEAD` after the task-completion commit.
 
-- [ ] **Step 6 — Bundle hygiene gates.** Run gitleaks over the bundle and confirm the docs/bundles INDEX is current.
+- [ ] **Step 6 — Bundle hygiene gates.** Run gitleaks over the bundle and confirm the docs/bundles INDEX row is present (the row was appended by plan-acceptance `bundle-merge`; this is a sanity check that nothing has overwritten it).
 
       *Verification:*
       ```
-      gitleaks detect --source docs/bundles/draft-pushover-alert-debounce --no-banner
-      gitleaks detect --log-opts=--all --source docs/bundles/draft-pushover-alert-debounce --no-banner
+      gitleaks detect --source docs/bundles/0001-pushover-alert-debounce --no-banner
+      gitleaks detect --log-opts=--all --source docs/bundles/0001-pushover-alert-debounce --no-banner
       ```
-      Both exit 0. `grep -c pushover-alert-debounce docs/bundles/INDEX.md` returns ≥ 1 (or note that the row is added at bundle-merge time by the SDLC tooling).
+      Both exit 0. `grep -c '| 0001 | pushover-alert-debounce ' docs/bundles/INDEX.md` returns `1`.
 
 - [ ] **Step 7 — Flip frontmatter and `task-status.md` rows.**
 
@@ -69,23 +81,21 @@ Both rehearsals are gated on the user being available to receive (or NOT receive
 
       *Verification:* `grep -E '^implementation_status:' ../implementation-plan.md` returns `implementation_status: completed`. `grep -E '^\| 0[12] ' ../task-status.md | grep -vc completed` returns `0`.
 
-- [ ] **Step 8 — Merge to master.** This repo uses `master` as the main branch, not `main`, so the SDLC plugin's `bundle-merge` helper (which hardcodes `refs/heads/main`) cannot be used. Do the merge manually. `git checkout master` inside the worktree would fail (the parent checkout already has `master` checked out, and git refuses concurrent checkouts of the same branch across worktrees), so the sequence is:
+- [ ] **Step 8 — Land the closeout commit on `master` and tear down the worktree.** The Step 7 frontmatter flip lives as a new commit on `bundle/0001-pushover-alert-debounce` (written by `/exec-task`'s end-of-task commit, with the Step 5 advisor verdict in the body). Land it on `master` and remove the worktree + branch in one ceremony:
 
       ```bash
-      # From inside the worktree:
-      ExitWorktree                       # via the harness tool, NOT a shell command
-
-      # From the parent checkout (now the active cwd after ExitWorktree):
-      git pull --ff-only origin master
-      git merge --ff-only bundle/draft-pushover-alert-debounce
-      git push origin master
-      git worktree remove .claude/worktrees/draft-pushover-alert-debounce
-      git branch -D bundle/draft-pushover-alert-debounce
+      bundle-merge --teardown
       ```
 
-      *Verification:* `git log --oneline master -1` shows the workflow-debounce commit at HEAD. `git worktree list` no longer shows `draft-pushover-alert-debounce`. `git branch --list 'bundle/draft-pushover-alert-debounce'` is empty.
+      Direct mode with `--teardown`. `bundle-merge` rebases the closeout commit onto `master`, advances `refs/heads/master` via CAS, `cd`s out of the worktree, runs `git worktree remove`, and deletes the bundle branch. Stdout is empty on success. The harness still thinks it's inside the (now-removed) worktree path; immediately call `ExitWorktree(action: "keep")` from the agent side to drop the harness back to the parent checkout cwd.
 
-- [ ] **Step 9 — Clean up rehearsal issues.** Rehearsal A's issue should have self-deleted (via the workflow's CLOSED→delete branch); rehearsal B's issue likely still exists in closed state (it paged, then was closed; Upptime won't touch a manually-created issue). Confirm and clean up any survivors.
+      *Verification, run from the parent checkout (`~/Developer/homelab-status`):* `git log --oneline master -1` shows the frontmatter-flip commit at HEAD. `git worktree list` no longer shows `draft-pushover-alert-debounce`. `git branch --list 'bundle/0001-pushover-alert-debounce'` is empty.
+
+- [ ] **Step 9 — Push the closeout commit to `origin`.** Step 8's `bundle-merge --teardown` advanced local `master` again (with the frontmatter-flip commit) but did not push. From the parent checkout: `git push origin master`. Setup-CI only fires on pushes that touch `.upptimerc.yml` (allowlist; see `.github/workflows/setup.yml` `on.push.paths`), so a docs-bundles-only push is a no-op for the live status site.
+
+      *Verification:* `git -C ~/Developer/homelab-status status -sb` shows `## master...origin/master` with no `[ahead]` count.
+
+- [ ] **Step 10 — Clean up rehearsal issues.** Rehearsal A's issue should have self-deleted (via the workflow's CLOSED→delete branch); rehearsal B's issue likely still exists in closed state (it paged, then was closed; Upptime won't touch a manually-created issue). Confirm and clean up any survivors.
 
       ```bash
       gh issue list --repo SynVisions/homelab-status --state all --search "REHEARSAL: pushover-debounce" --json number,title,state

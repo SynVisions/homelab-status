@@ -6,7 +6,7 @@ Replace `.github/workflows/pushover-on-incident.yml` with a two-job version that
 
 ## Preamble
 
-The current workflow (`.github/workflows/pushover-on-incident.yml`, 35 lines) fires Pushover the instant Upptime opens or closes an incident issue. The replacement keeps the same trigger (`on: issues: [opened, closed]`) and the same label gate (`contains(github.event.issue.labels.*.name, 'status')`) but splits the body into two `jobs:` keyed on `github.event.action`. See `../implementation-plan.md` § "Structural notes" for the rationale behind the 20-minute threshold and the `pushover-sent` label mechanism.
+The current workflow (`.github/workflows/pushover-on-incident.yml`, 34 lines) fires Pushover the instant Upptime opens or closes an incident issue. The replacement keeps the same trigger (`on: issues: [opened, closed]`) and the same label gate (`contains(github.event.issue.labels.*.name, 'status')`) but splits the body into two `jobs:` keyed on `github.event.action`. See `../implementation-plan.md` § "Structural notes" for the rationale behind the 20-minute threshold and the `pushover-sent` label mechanism.
 
 The sleep happens on a GitHub-hosted runner. The repo is public, so GitHub-hosted runner minutes are free — there is no cost concern with a 20-minute idle hold per outage. The default job timeout (6h) is comfortably above 20 min, so no `timeout-minutes:` override is needed (but we'll set one defensively at 30 min).
 
@@ -16,7 +16,7 @@ The sleep happens on a GitHub-hosted runner. The repo is public, so GitHub-hoste
 
       *Verification:* `gh secret list --repo SynVisions/homelab-status | grep -q '^GH_PAT'` exits 0. If it is missing, stop and surface to the user — the design needs to flip to `gh issue close` (which works on `GITHUB_TOKEN`) and accept a closed-issue rump in the 15–20 min band, or `GH_PAT` needs to be provisioned first.
 
-- [ ] **Step 2 — Read the current workflow into context.** Open `.github/workflows/pushover-on-incident.yml` and confirm it still matches the shape recorded in `../implementation-plan.md` § Preconditions (35 lines, single `notify` job, fires on both `opened` and `closed`). If it has been edited since this plan was drafted, surface the diff to the user before continuing — the per-event split assumes the current body.
+- [ ] **Step 2 — Read the current workflow into context.** Open `.github/workflows/pushover-on-incident.yml` and confirm it still matches the shape recorded in `../implementation-plan.md` § Preconditions (34 lines, single `notify` job, fires on both `opened` and `closed`). If it has been edited since this plan was drafted, surface the diff to the user before continuing — the per-event split assumes the current body.
 
       *Verification:* `wc -l .github/workflows/pushover-on-incident.yml` returns 34 and `grep -c 'on:' .github/workflows/pushover-on-incident.yml` shows the existing single `on:` block.
 

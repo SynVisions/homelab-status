@@ -100,7 +100,9 @@ Run both rehearsals.
 
 Informational; not asked interactively. The bundle proceeds without `sync-main` since the freshly-created worktree off `master` is by definition current.
 
-**Resolution:** Closeout task uses a manual fast-forward merge of `bundle/draft-pushover-alert-debounce` → `master` rather than `bundle-merge --teardown` (see `tasks/task-02-closeout.md` Step 8). A separate follow-up for SDLC-plugin `master`-awareness is filed outside this bundle.
+**Resolution (superseded — see updated resolution below):** Closeout task uses a manual fast-forward merge of `bundle/draft-pushover-alert-debounce` → `master` rather than `bundle-merge --teardown` (see `tasks/task-02-closeout.md` Step 8). A separate follow-up for SDLC-plugin `master`-awareness is filed outside this bundle.
+
+**Updated resolution (2026-05-13 review-plan pass 2):** Collapsed. SDLC plugin 0.5.4 reads `main_branch` from `.claude-sdlc.config.json` in both `sync-main` and `bundle-merge`; the config now declares `"main_branch": "master"` (landed on master as commit `cc74bed`, then merged into this branch via rebase). `sync-main` ran clean at the start of this review pass. `tasks/task-02-closeout.md` Step 8 has been replaced with `bundle-merge --teardown`. No separate follow-up needed.
 
 **STATUS: RESOLVED**
 
@@ -126,8 +128,10 @@ If you choose recommendation: this turn, before flipping `implementation_status:
 
 The user is working on a fix to the SDLC plugin so `sync-main` and `bundle-merge` support repositories whose primary branch is `master`. Plan acceptance for this bundle is deferred until that fix is in: once `sync-main` / `bundle-merge` can target `refs/heads/master`, both Q5 and Q6 collapse into "let the plugin do the work" and a follow-up `/review-plan` turn will flip `implementation_status: draft → active` via the normal ceremony.
 
-**Resolution (pending):** Once the plugin fix lands and is installed, re-invoke `/review-plan`. The pre-flight `sync-main` should succeed (this worktree is already current with `master`); the acceptance ceremony then runs `bundle-merge` in rename mode, which allocates `0001`, `git mv`s the bundle directory to `docs/bundles/0001-pushover-alert-debounce/`, renames the branch to `bundle/0001-pushover-alert-debounce`, sets `number: 0001` in frontmatter, and appends the INDEX row. At that point Q5 (manual ff-merge at closeout) also collapses: Task 02 Step 8 can be replaced with `bundle-merge` again. Both Q5 and Q6 should be re-resolved (and re-RESOLVED) in that turn; this turn just records the deferral.
+**Followup (2026-05-13, review pass 2):** Plugin fix verified in installed version 0.5.4 (both `sync-main` and `bundle-merge` source `sdlc_load_config` from `sdlc-config.sh`, which honours `main_branch` from `.claude-sdlc.config.json`). The `.claude-sdlc.config.json` edit was landed on master as commit `cc74bed` ("chore: declare master as the SDLC main_branch") and rebased into this bundle branch. Proceeding with bundle-merge.
 
-**STATUS: OPEN**
+**Resolution:** Plan acceptance this turn runs `bundle-merge` in rename mode (auto-detected from the `bundle/draft-pushover-alert-debounce` branch name). The helper allocates `0001` (INDEX is empty), `git mv`s the bundle directory to `docs/bundles/0001-pushover-alert-debounce/`, renames the branch to `bundle/0001-pushover-alert-debounce`, sets `number: 0001` in `implementation-plan.md` frontmatter, and appends the INDEX row above the `<!-- bundle-merge: insert new rows above this line. -->` marker. Worktree path stays `.claude/worktrees/draft-pushover-alert-debounce` (intentional; design 0059 § Architecture). Task 02 Step 8 was rewritten to `bundle-merge --teardown` (direct mode at closeout) and Step 2 to a mid-task `bundle-merge` + `git push origin master` to deploy Task 01's workflow before rehearsals run.
+
+**STATUS: RESOLVED**
 
 ---

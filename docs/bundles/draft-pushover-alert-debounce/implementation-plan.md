@@ -1,7 +1,7 @@
 ---
 slug: pushover-alert-debounce
 design_status: none
-implementation_status: draft
+implementation_status: active
 autonomous_eligible: false
 ---
 
@@ -36,6 +36,11 @@ For the **Pushover axis**, the rule is simpler: page only if the issue is still 
 **The label that ties open and close together.** We use a `pushover-sent` label on the issue as the single source of truth for "did we page?". The open-event branch sets it when it actually fires the Pushover; the close-event branch fires the "UP" Pushover *only* if that label is present. This keeps the two event branches stateless and survives across workflow runs (labels are issue state, not run state).
 
 **Concurrency across services.** Each service Upptime tracks (Plex, Overseerr) gets its own issue; the workflow runs are scoped per-issue (`github.event.issue.number`), so a Plex flap and an Overseerr flap during the same 20-min window debounce independently. No mutex needed.
+
+**Boundary races at T~20min.** Two narrow races sit on the seam where `notify-down` wakes:
+
+- *False UP* — recovery probe at T=20.0 and our wake-up at T=20.0 land near each other; we may label-then-page-DOWN before Upptime closes, then `notify-up` fires UP a few seconds later. Acknowledged in Q3's resolution (`plan-open-questions.md`); accepted as one false transition per ~20-min-exactly outage.
+- *Missed UP* — Upptime's close event arrives between our `gh issue view` (which sees OPEN) and our `gh issue edit --add-label "pushover-sent"` call (sub-second window). The DOWN page fires but the close-event `notify-up` job, which gates on the `pushover-sent` label, may see the issue without the label yet and skip the UP page. Worst case: a DOWN page with no matching UP page. Window is small (single API call); the consequence is a missing acknowledgement, not a wrong action. Not worth a retry loop.
 
 ## Failure-handling contract
 
