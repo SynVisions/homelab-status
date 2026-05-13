@@ -6,5 +6,5 @@
 
 | #   | Title                                        | Origin  | Status      | File                                                              |
 | --- | -------------------------------------------- | ------- | ----------- | ----------------------------------------------------------------- |
-| 01  | Debounce Pushover via custom workflow        | planned | not_started | [task-01-debounce-pushover.md](tasks/task-01-debounce-pushover.md) |
+| 01  | Debounce Pushover via custom workflow        | planned | completed   | [task-01-debounce-pushover.md](tasks/task-01-debounce-pushover.md) |
 | 02  | Closeout                                     | planned | not_started | [task-02-closeout.md](tasks/task-02-closeout.md)                  |

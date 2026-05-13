@@ -4,31 +4,105 @@ on:
     types: [opened, closed]
 
 jobs:
-  notify:
-    if: contains(github.event.issue.labels.*.name, 'status')
+  # Issue OPENED — debounce 20 minutes, then page only if still open.
+  notify-down:
+    if: |
+      github.event.action == 'opened'
+      && contains(github.event.issue.labels.*.name, 'status')
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      issues: write
     steps:
-      - name: Send Pushover notification
+      - name: Wait 20 minutes for outage to either persist or resolve
+        # 4 × 5-min Upptime cycles. If Upptime sees the service recover
+        # in this window it closes (and probably deletes) the issue;
+        # we then exit without paging.
+        run: sleep 1200
+
+      - name: Re-check issue state, delete or page accordingly
         env:
+          # Use the same elevated PAT Upptime itself uses; GITHUB_TOKEN
+          # cannot deleteIssue via GraphQL (the operation requires
+          # repo-admin/maintainer scope, which the default token lacks).
+          GH_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
           PUSHOVER_APP_TOKEN: ${{ secrets.PUSHOVER_APP_TOKEN }}
           PUSHOVER_USER_KEY: ${{ secrets.PUSHOVER_USER_KEY }}
-          ISSUE_ACTION: ${{ github.event.action }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
           ISSUE_TITLE: ${{ github.event.issue.title }}
           ISSUE_URL: ${{ github.event.issue.html_url }}
+          REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
-          case "${ISSUE_ACTION}" in
-            opened) verb="DOWN"; prio=1 ;;
-            closed) verb="UP"; prio=0 ;;
-            *) echo "Unhandled action ${ISSUE_ACTION}"; exit 0 ;;
+
+          # Three cases at T+20min:
+          #   OPEN    → service still down → page + label.
+          #   CLOSED  → Upptime closed on recovery but didn't auto-delete
+          #             (outage was 15–20 min, past summary.ts's cutoff).
+          #             Delete the issue so it doesn't leave a closed-tab
+          #             rump for a sub-threshold outage.
+          #   DELETED → Upptime already auto-deleted (outage <15 min). Done.
+          state="$(gh issue view "$ISSUE_NUMBER" --repo "$REPO" --json state -q .state 2>/dev/null || echo "DELETED")"
+
+          case "$state" in
+            DELETED)
+              echo "Issue $ISSUE_NUMBER already deleted by Upptime auto-delete; nothing to do."
+              exit 0
+              ;;
+            CLOSED)
+              echo "Issue $ISSUE_NUMBER closed within debounce window but past Upptime's 15-min auto-delete cutoff; deleting to suppress sub-threshold trace."
+              gh issue delete "$ISSUE_NUMBER" --repo "$REPO" --yes
+              exit 0
+              ;;
+            OPEN)
+              : # fall through to page-and-label below
+              ;;
+            *)
+              echo "Unexpected state '$state' for issue $ISSUE_NUMBER; bailing without paging." >&2
+              exit 1
+              ;;
           esac
-          title="[homelab] ${verb}: ${ISSUE_TITLE}"
+
+          # OPEN at T+20min: real outage. Tag the issue so the close-event
+          # branch knows to fire an "UP" page when recovery eventually lands.
+          gh issue edit "$ISSUE_NUMBER" --repo "$REPO" --add-label "pushover-sent"
+
+          title="[homelab] DOWN: ${ISSUE_TITLE}"
           curl -sS --fail-with-body \
             -F "token=${PUSHOVER_APP_TOKEN}" \
             -F "user=${PUSHOVER_USER_KEY}" \
             -F "title=${title}" \
             -F "message=${ISSUE_URL}" \
-            -F "priority=${prio}" \
+            -F "priority=1" \
+            -F "url=${ISSUE_URL}" \
+            -F "url_title=GitHub issue" \
+            https://api.pushover.net/1/messages.json
+
+  # Issue CLOSED — page "UP" only if the matching open actually paged.
+  notify-up:
+    if: |
+      github.event.action == 'closed'
+      && contains(github.event.issue.labels.*.name, 'status')
+      && contains(github.event.issue.labels.*.name, 'pushover-sent')
+    runs-on: ubuntu-latest
+    permissions:
+      issues: read
+    steps:
+      - name: Send Pushover "UP" notification
+        env:
+          PUSHOVER_APP_TOKEN: ${{ secrets.PUSHOVER_APP_TOKEN }}
+          PUSHOVER_USER_KEY: ${{ secrets.PUSHOVER_USER_KEY }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+        run: |
+          set -euo pipefail
+          title="[homelab] UP: ${ISSUE_TITLE}"
+          curl -sS --fail-with-body \
+            -F "token=${PUSHOVER_APP_TOKEN}" \
+            -F "user=${PUSHOVER_USER_KEY}" \
+            -F "title=${title}" \
+            -F "message=${ISSUE_URL}" \
+            -F "priority=0" \
             -F "url=${ISSUE_URL}" \
             -F "url_title=GitHub issue" \
             https://api.pushover.net/1/messages.json

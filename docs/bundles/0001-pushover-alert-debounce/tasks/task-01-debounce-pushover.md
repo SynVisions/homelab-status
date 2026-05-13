@@ -12,15 +12,15 @@ The sleep happens on a GitHub-hosted runner. The repo is public, so GitHub-hoste
 
 ## Steps
 
-- [ ] **Step 1 — Verify the `GH_PAT` repo secret exists.** The CLOSED→delete branch of the workflow calls `gh issue delete`, which uses GraphQL `deleteIssue` and requires repo-admin scope — the default `GITHUB_TOKEN` cannot satisfy it. The workflow falls back to `GITHUB_TOKEN` if `GH_PAT` is missing, so the failure mode is non-fatal at runtime (the delete branch silently fails), but it defeats the bundle's whole point. Confirm `GH_PAT` is present *before* editing the workflow.
+- [x] **Step 1 — Verify the `GH_PAT` repo secret exists.** The CLOSED→delete branch of the workflow calls `gh issue delete`, which uses GraphQL `deleteIssue` and requires repo-admin scope — the default `GITHUB_TOKEN` cannot satisfy it. The workflow falls back to `GITHUB_TOKEN` if `GH_PAT` is missing, so the failure mode is non-fatal at runtime (the delete branch silently fails), but it defeats the bundle's whole point. Confirm `GH_PAT` is present *before* editing the workflow.
 
       *Verification:* `gh secret list --repo SynVisions/homelab-status | grep -q '^GH_PAT'` exits 0. If it is missing, stop and surface to the user — the design needs to flip to `gh issue close` (which works on `GITHUB_TOKEN`) and accept a closed-issue rump in the 15–20 min band, or `GH_PAT` needs to be provisioned first.
 
-- [ ] **Step 2 — Read the current workflow into context.** Open `.github/workflows/pushover-on-incident.yml` and confirm it still matches the shape recorded in `../implementation-plan.md` § Preconditions (34 lines, single `notify` job, fires on both `opened` and `closed`). If it has been edited since this plan was drafted, surface the diff to the user before continuing — the per-event split assumes the current body.
+- [x] **Step 2 — Read the current workflow into context.** Open `.github/workflows/pushover-on-incident.yml` and confirm it still matches the shape recorded in `../implementation-plan.md` § Preconditions (34 lines, single `notify` job, fires on both `opened` and `closed`). If it has been edited since this plan was drafted, surface the diff to the user before continuing — the per-event split assumes the current body.
 
       *Verification:* `wc -l .github/workflows/pushover-on-incident.yml` returns 34 and `grep -c 'on:' .github/workflows/pushover-on-incident.yml` shows the existing single `on:` block.
 
-- [ ] **Step 3 — Replace the workflow.** Overwrite `.github/workflows/pushover-on-incident.yml` with the version below. The two jobs share the `if:` label gate but key on `github.event.action` so they are mutually exclusive per workflow run.
+- [x] **Step 3 — Replace the workflow.** Overwrite `.github/workflows/pushover-on-incident.yml` with the version below. The two jobs share the `if:` label gate but key on `github.event.action` so they are mutually exclusive per workflow run.
 
       ```yaml
       name: Pushover on incident
@@ -135,11 +135,11 @@ The sleep happens on a GitHub-hosted runner. The repo is public, so GitHub-hoste
 
       *Verification:* `yq '.jobs | keys' .github/workflows/pushover-on-incident.yml` returns `["notify-down", "notify-up"]`. If `yq` is not installed, fall back to `grep -E '^  notify-(down|up):' .github/workflows/pushover-on-incident.yml | wc -l` → `2`.
 
-- [ ] **Step 4 — Syntax-check the workflow.** Run `gh workflow view "Pushover on incident" --repo SynVisions/homelab-status` against the *current* (un-pushed) file by piping locally, OR — simpler — run `actionlint` if available, otherwise rely on `yq -e '.jobs.notify-down.steps | length == 2' .github/workflows/pushover-on-incident.yml` and `yq -e '.jobs.notify-up.steps | length == 1' .github/workflows/pushover-on-incident.yml` to confirm structure.
+- [x] **Step 4 — Syntax-check the workflow.** Run `gh workflow view "Pushover on incident" --repo SynVisions/homelab-status` against the *current* (un-pushed) file by piping locally, OR — simpler — run `actionlint` if available, otherwise rely on `yq -e '.jobs.notify-down.steps | length == 2' .github/workflows/pushover-on-incident.yml` and `yq -e '.jobs.notify-up.steps | length == 1' .github/workflows/pushover-on-incident.yml` to confirm structure.
 
       *Verification:* Both `yq -e` invocations exit 0. If neither `actionlint` nor `yq` is installed locally, push the change on a feature branch (NOT master — `setup.yml` redeploys gh-pages on any push to master that touches `.upptimerc.yml`, but does not run on workflow-file-only pushes — verify by reading `.github/workflows/setup.yml`'s `on:` filter before pushing) and let GitHub's YAML parser reject it via Actions' "All workflows" tab.
 
-- [ ] **Step 5 — Commit the workflow change.** Conventional-commits style (per the repo's CLAUDE.md § Conventions): `feat: debounce pushover by 20 minutes via dual-job workflow`. The commit message body should reference the upstream constraint discovered during planning (Upptime's synchronous issue creation in `upptime-monitor/src/update.ts`) and point at this bundle's `implementation-plan.md` for the full rationale.
+- [x] **Step 5 — Commit the workflow change.** Conventional-commits style (per the repo's CLAUDE.md § Conventions): `feat: debounce pushover by 20 minutes via dual-job workflow`. The commit message body should reference the upstream constraint discovered during planning (Upptime's synchronous issue creation in `upptime-monitor/src/update.ts`) and point at this bundle's `implementation-plan.md` for the full rationale.
 
       *Verification:* `git log -1 --format=%s` matches the conventional-commits pattern. `git diff HEAD~1 --stat` shows exactly one file changed (`.github/workflows/pushover-on-incident.yml`).
 
