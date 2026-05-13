@@ -4,5 +4,6 @@
   "secret_scanner_history_invocation": "gitleaks detect --log-opts=--all --source",
   "project_archetype": "application-node",
   "has_host_concept": false,
-  "commit_mode": "agent_commits"
+  "commit_mode": "agent_commits",
+  "main_branch": "master"
 }
