@@ -43,6 +43,7 @@ Non-secret config is in `dispatcher/wrangler.toml` `[vars]`. Recovery procedures
 
 - **Plex** — the public endpoint sits behind no auth on `/identity` and returns 200 with `machineIdentifier` in the body; the `__dangerous__body_down_if_text_missing` assertion catches captive-portal / WAF interception that would otherwise look "up."
 - **Overseerr** — gated by Cloudflare Access. The `CF-Access-Client-Id` / `CF-Access-Client-Secret` repo secrets are injected as request headers; `/api/v1/status` is the unauthenticated-once-past-Access health endpoint.
+- **`pushover-sent` label** — required infrastructure for `.github/workflows/pushover-on-incident.yml`. The `notify-down` job applies this label via `gh issue edit --add-label`, which requires the label to pre-exist in the repo. If deleted, every real outage will fail silently (no DOWN or UP page). Re-create with: `gh label create pushover-sent --repo SynVisions/homelab-status --color e11d48 --description "Pushover notification sent for this incident"`.
 
 ## Local preview harness
 

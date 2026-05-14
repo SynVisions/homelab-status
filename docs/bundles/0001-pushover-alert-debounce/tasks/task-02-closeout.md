@@ -14,11 +14,11 @@ This task lives on `bundle/0001-pushover-alert-debounce` (renamed from `bundle/d
 
 ## Steps
 
-- [ ] **Step 1 — Confirm task 01 is `completed` in `../task-status.md`.**
+- [x] **Step 1 — Confirm task 01 is `completed` in `../task-status.md`.**
 
       *Verification:* `grep '^| 01 ' ../task-status.md | grep -c completed` returns `1`.
 
-- [ ] **Step 2 — Land Task 01 on `master` and push so the new workflow is actually live on GitHub.** GitHub Actions resolves `on: issues:` workflows from whatever is on `origin/master` (the default branch as GitHub sees it). Local `master` ahead of `origin/master` doesn't help — the rehearsals would still trigger the OLD workflow. So this is a two-step deploy: `bundle-merge` to advance local `master`, then `git push origin master` from the parent checkout to publish.
+- [x] **Step 2 — Land Task 01 on `master` and push so the new workflow is actually live on GitHub.** GitHub Actions resolves `on: issues:` workflows from whatever is on `origin/master` (the default branch as GitHub sees it). Local `master` ahead of `origin/master` doesn't help — the rehearsals would still trigger the OLD workflow. So this is a two-step deploy: `bundle-merge` to advance local `master`, then `git push origin master` from the parent checkout to publish.
 
       ```bash
       # From inside the worktree:
@@ -32,7 +32,7 @@ This task lives on `bundle/0001-pushover-alert-debounce` (renamed from `bundle/d
 
       *Verification:* `git rev-parse master` equals `git rev-parse HEAD` and equals `git rev-parse origin/master` after the push. `git log -1 origin/master --format=%s` shows Task 01's `feat: debounce pushover by 20 minutes via dual-job workflow` subject. `gh workflow view "Pushover on incident" --repo SynVisions/homelab-status --ref master --yaml | yq '.jobs | keys'` returns `[notify-down, notify-up]`. No "Invalid workflow file" annotation visible at https://github.com/SynVisions/homelab-status/actions.
 
-- [ ] **Step 3 — Rehearsal A: early-close path (must NOT page; issue must be deleted).** Surface to the user that the rehearsal is about to start and they should keep an eye on Pushover for the next ~25 minutes (expecting nothing). Pick the close time deliberately to exercise the 15–20 min `CLOSED → delete` branch — close at T+17min, NOT T+5min, so we verify the `gh issue delete` path (not just Upptime's own 15-min auto-delete, which would moot the test). Then:
+- [x] **Step 3 — Rehearsal A: early-close path (must NOT page; issue must be deleted).** Surface to the user that the rehearsal is about to start and they should keep an eye on Pushover for the next ~25 minutes (expecting nothing). Pick the close time deliberately to exercise the 15–20 min `CLOSED → delete` branch — close at T+17min, NOT T+5min, so we verify the `gh issue delete` path (not just Upptime's own 15-min auto-delete, which would moot the test). Then:
 
       ```bash
       gh issue create --repo SynVisions/homelab-status \
@@ -45,7 +45,7 @@ This task lives on `bundle/0001-pushover-alert-debounce` (renamed from `bundle/d
 
       *Verification:* `gh issue view <N> --repo SynVisions/homelab-status --json state -q .state 2>&1` returns a "not found" error (issue deleted). User confirms in chat: "no Pushover received". `gh run list --repo SynVisions/homelab-status --workflow "Pushover on incident" --limit 1 --json conclusion -q '.[].conclusion'` returns `success` (the `notify-down` job exited cleanly via the `CLOSED → delete` branch).
 
-- [ ] **Step 4 — Rehearsal B: page-then-up path (MUST page twice).** Surface to the user that the rehearsal is about to start and they should expect a "DOWN" Pushover at T~20min and an "UP" Pushover shortly after the close. Then:
+- [x] **Step 4 — Rehearsal B: page-then-up path (MUST page twice).** Surface to the user that the rehearsal is about to start and they should expect a "DOWN" Pushover at T~20min and an "UP" Pushover shortly after the close. Then:
 
       ```bash
       gh issue create --repo SynVisions/homelab-status \
@@ -58,11 +58,11 @@ This task lives on `bundle/0001-pushover-alert-debounce` (renamed from `bundle/d
 
       *Verification:* `gh issue view <N> --repo SynVisions/homelab-status --json labels -q '.labels[].name'` contains `pushover-sent`. User confirms two Pushovers received (one DOWN at T~20min, one UP shortly after close). `gh run list --repo SynVisions/homelab-status --workflow "Pushover on incident" --limit 2` shows two runs, both `success`.
 
-- [ ] **Step 5 — Mandatory `advisor()` call.** Before flipping `implementation_status: completed`, invoke `advisor()`. The advisor sees the full conversation including both rehearsals' outcomes and probes for gaps the rehearsals didn't cover (e.g. concurrent multi-service outages, label-race edge cases, what happens if Upptime deletes the issue while we're sleeping). Paste a 1–3 sentence verdict summary into the worklog for this task, and copy that same summary verbatim into the body of the closeout commit message that `/exec-task` writes when this task completes (Step 7's frontmatter flip is the last edit before that commit).
+- [x] **Step 5 — Mandatory `advisor()` call.** Before flipping `implementation_status: completed`, invoke `advisor()`. The advisor sees the full conversation including both rehearsals' outcomes and probes for gaps the rehearsals didn't cover (e.g. concurrent multi-service outages, label-race edge cases, what happens if Upptime deletes the issue while we're sleeping). Paste a 1–3 sentence verdict summary into the worklog for this task, and copy that same summary verbatim into the body of the closeout commit message that `/exec-task` writes when this task completes (Step 7's frontmatter flip is the last edit before that commit).
 
       *Verification:* Advisor invocation occurred this turn; verdict summary pasted into the worklog for this task and visible in `git log -1 --format=%B HEAD` after the task-completion commit.
 
-- [ ] **Step 6 — Bundle hygiene gates.** Run gitleaks over the bundle and confirm the docs/bundles INDEX row is present (the row was appended by plan-acceptance `bundle-merge`; this is a sanity check that nothing has overwritten it).
+- [x] **Step 6 — Bundle hygiene gates.** Run gitleaks over the bundle and confirm the docs/bundles INDEX row is present (the row was appended by plan-acceptance `bundle-merge`; this is a sanity check that nothing has overwritten it).
 
       *Verification:*
       ```
@@ -71,7 +71,7 @@ This task lives on `bundle/0001-pushover-alert-debounce` (renamed from `bundle/d
       ```
       Both exit 0. `grep -c '| 0001 | pushover-alert-debounce ' docs/bundles/INDEX.md` returns `1`.
 
-- [ ] **Step 7 — Flip frontmatter and `task-status.md` rows.**
+- [x] **Step 7 — Flip frontmatter and `task-status.md` rows.**
 
       ```
       ../implementation-plan.md frontmatter: implementation_status: active → completed
@@ -106,4 +106,7 @@ This task lives on `bundle/0001-pushover-alert-debounce` (renamed from `bundle/d
 
 ## Deviations
 
-_No deviations._
+| #   | Title                                               | Status   | Pointer |
+| --- | --------------------------------------------------- | -------- | ------- |
+| D1  | Local master diverged from origin/master            | fixed    | —       |
+| D2  | Missing `pushover-sent` label in repo               | fixed    | —       |
