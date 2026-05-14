@@ -145,4 +145,6 @@ The sleep happens on a GitHub-hosted runner. The repo is public, so GitHub-hoste
 
 ## Deviations
 
-_No deviations._
+| D#  | Title                                          | Status      | Pointer |
+| --- | ---------------------------------------------- | ----------- | ------- |
+| D1  | Workflow already replaced before exec-task ran | not-a-bug   | —       |
