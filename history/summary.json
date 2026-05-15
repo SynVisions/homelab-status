@@ -5,18 +5,18 @@
     "icon": "https://icons.duckduckgo.com/ip3/plex.syntheticvisions.net.ico",
     "slug": "plex",
     "status": "down",
-    "uptime": "100.00%",
-    "uptimeDay": "100.00%",
-    "uptimeWeek": "100.00%",
-    "uptimeMonth": "100.00%",
-    "uptimeYear": "100.00%",
+    "uptime": "99.58%",
+    "uptimeDay": "98.29%",
+    "uptimeWeek": "99.58%",
+    "uptimeMonth": "99.58%",
+    "uptimeYear": "99.58%",
     "time": 374,
     "timeDay": 1750,
     "timeWeek": 374,
     "timeMonth": 374,
     "timeYear": 374,
     "dailyMinutesDown": {
-      "2026-05-15": 0
+      "2026-05-15": 25
     }
   },
   {
