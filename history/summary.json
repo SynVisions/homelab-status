@@ -5,19 +5,17 @@
     "icon": "https://icons.duckduckgo.com/ip3/plex.syntheticvisions.net.ico",
     "slug": "plex",
     "status": "up",
-    "uptime": "99.75%",
-    "uptimeDay": "98.97%",
-    "uptimeWeek": "99.75%",
-    "uptimeMonth": "99.75%",
-    "uptimeYear": "99.75%",
-    "time": 356,
-    "timeDay": 969,
-    "timeWeek": 356,
-    "timeMonth": 356,
-    "timeYear": 356,
-    "dailyMinutesDown": {
-      "2026-05-15": 15
-    }
+    "uptime": "100.00%",
+    "uptimeDay": "100.00%",
+    "uptimeWeek": "100.00%",
+    "uptimeMonth": "100.00%",
+    "uptimeYear": "100.00%",
+    "time": 346,
+    "timeDay": 939,
+    "timeWeek": 346,
+    "timeMonth": 346,
+    "timeYear": 346,
+    "dailyMinutesDown": {}
   },
   {
     "name": "Overseerr",
@@ -30,11 +28,11 @@
     "uptimeWeek": "100.00%",
     "uptimeMonth": "100.00%",
     "uptimeYear": "100.00%",
-    "time": 255,
-    "timeDay": 190,
-    "timeWeek": 255,
-    "timeMonth": 255,
-    "timeYear": 255,
+    "time": 257,
+    "timeDay": 181,
+    "timeWeek": 257,
+    "timeMonth": 257,
+    "timeYear": 257,
     "dailyMinutesDown": {}
   }
 ]
