@@ -24,20 +24,19 @@
     "url": "https://overseer.syntheticvisions.net/api/v1/status",
     "icon": "https://icons.duckduckgo.com/ip3/overseer.syntheticvisions.net.ico",
     "slug": "overseerr",
-    "status": "up",
+    "status": "down",
     "uptime": "99.81%",
-    "uptimeDay": "99.98%",
+    "uptimeDay": "100.00%",
     "uptimeWeek": "100.00%",
     "uptimeMonth": "99.81%",
     "uptimeYear": "99.81%",
-    "time": 254,
-    "timeDay": 385,
-    "timeWeek": 324,
-    "timeMonth": 254,
-    "timeYear": 254,
+    "time": 255,
+    "timeDay": 368,
+    "timeWeek": 321,
+    "timeMonth": 255,
+    "timeYear": 255,
     "dailyMinutesDown": {
-      "2026-05-16": 55,
-      "2026-05-31": 0
+      "2026-05-16": 55
     }
   }
 ]
