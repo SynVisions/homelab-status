@@ -4,21 +4,21 @@
     "url": "https://plex.syntheticvisions.net/identity",
     "icon": "https://icons.duckduckgo.com/ip3/plex.syntheticvisions.net.ico",
     "slug": "plex",
-    "status": "down",
-    "uptime": "99.82%",
-    "uptimeDay": "99.98%",
-    "uptimeWeek": "100.00%",
-    "uptimeMonth": "99.82%",
-    "uptimeYear": "99.82%",
-    "time": 594,
-    "timeDay": 190,
-    "timeWeek": 499,
-    "timeMonth": 594,
-    "timeYear": 594,
+    "status": "up",
+    "uptime": "99.81%",
+    "uptimeDay": "99.58%",
+    "uptimeWeek": "99.94%",
+    "uptimeMonth": "99.81%",
+    "uptimeYear": "99.81%",
+    "time": 586,
+    "timeDay": 163,
+    "timeWeek": 464,
+    "timeMonth": 586,
+    "timeYear": 586,
     "dailyMinutesDown": {
       "2026-05-16": 40,
       "2026-05-31": 35,
-      "2026-06-10": 0
+      "2026-06-10": 6
     }
   },
   {
@@ -26,20 +26,21 @@
     "url": "https://overseer.syntheticvisions.net/api/v1/status",
     "icon": "https://icons.duckduckgo.com/ip3/overseer.syntheticvisions.net.ico",
     "slug": "overseerr",
-    "status": "down",
-    "uptime": "99.79%",
-    "uptimeDay": "100.00%",
-    "uptimeWeek": "100.00%",
-    "uptimeMonth": "99.79%",
-    "uptimeYear": "99.79%",
-    "time": 244,
-    "timeDay": 150,
-    "timeWeek": 212,
-    "timeMonth": 244,
-    "timeYear": 244,
+    "status": "up",
+    "uptime": "99.78%",
+    "uptimeDay": "99.59%",
+    "uptimeWeek": "99.94%",
+    "uptimeMonth": "99.78%",
+    "uptimeYear": "99.78%",
+    "time": 254,
+    "timeDay": 322,
+    "timeWeek": 265,
+    "timeMonth": 254,
+    "timeYear": 254,
     "dailyMinutesDown": {
       "2026-05-16": 55,
-      "2026-05-31": 35
+      "2026-05-31": 35,
+      "2026-06-10": 6
     }
   }
 ]
