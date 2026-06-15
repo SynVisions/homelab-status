@@ -5,20 +5,19 @@
     "icon": "https://icons.duckduckgo.com/ip3/plex.syntheticvisions.net.ico",
     "slug": "plex",
     "status": "up",
-    "uptime": "99.84%",
-    "uptimeDay": "99.90%",
-    "uptimeWeek": "99.99%",
-    "uptimeMonth": "99.82%",
-    "uptimeYear": "99.84%",
-    "time": 561,
-    "timeDay": 215,
-    "timeWeek": 446,
+    "uptime": "99.85%",
+    "uptimeDay": "100.00%",
+    "uptimeWeek": "100.00%",
+    "uptimeMonth": "99.83%",
+    "uptimeYear": "99.85%",
+    "time": 556,
+    "timeDay": 207,
+    "timeWeek": 459,
     "timeMonth": 669,
-    "timeYear": 561,
+    "timeYear": 556,
     "dailyMinutesDown": {
       "2026-05-16": 40,
-      "2026-05-31": 35,
-      "2026-06-14": 1
+      "2026-05-31": 35
     }
   },
   {
@@ -27,20 +26,19 @@
     "icon": "https://icons.duckduckgo.com/ip3/overseer.syntheticvisions.net.ico",
     "slug": "overseerr",
     "status": "up",
-    "uptime": "99.81%",
-    "uptimeDay": "99.91%",
-    "uptimeWeek": "99.99%",
+    "uptime": "99.82%",
+    "uptimeDay": "100.00%",
+    "uptimeWeek": "100.00%",
     "uptimeMonth": "99.79%",
-    "uptimeYear": "99.81%",
-    "time": 255,
-    "timeDay": 246,
-    "timeWeek": 261,
+    "uptimeYear": "99.82%",
+    "time": 256,
+    "timeDay": 236,
+    "timeWeek": 288,
     "timeMonth": 252,
-    "timeYear": 255,
+    "timeYear": 256,
     "dailyMinutesDown": {
       "2026-05-16": 55,
-      "2026-05-31": 35,
-      "2026-06-14": 1
+      "2026-05-31": 35
     }
   }
 ]
