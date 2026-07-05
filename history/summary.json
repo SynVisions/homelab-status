@@ -29,20 +29,21 @@
     "slug": "overseerr",
     "status": "down",
     "uptime": "99.51%",
-    "uptimeDay": "100.00%",
-    "uptimeWeek": "100.00%",
+    "uptimeDay": "99.88%",
+    "uptimeWeek": "99.98%",
     "uptimeMonth": "99.33%",
     "uptimeYear": "99.51%",
-    "time": 252,
+    "time": 253,
     "timeDay": 226,
     "timeWeek": 216,
     "timeMonth": 251,
-    "timeYear": 252,
+    "timeYear": 253,
     "dailyMinutesDown": {
       "2026-05-16": 55,
       "2026-05-31": 35,
       "2026-06-20": 39,
-      "2026-06-22": 254
+      "2026-06-22": 254,
+      "2026-07-05": 2
     }
   }
 ]
