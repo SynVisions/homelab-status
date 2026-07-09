@@ -27,22 +27,23 @@
     "url": "https://overseer.syntheticvisions.net/api/v1/status",
     "icon": "https://icons.duckduckgo.com/ip3/overseer.syntheticvisions.net.ico",
     "slug": "overseerr",
-    "status": "down",
-    "uptime": "99.55%",
-    "uptimeDay": "100.00%",
-    "uptimeWeek": "100.00%",
-    "uptimeMonth": "99.33%",
-    "uptimeYear": "99.55%",
-    "time": 248,
-    "timeDay": 113,
-    "timeWeek": 223,
-    "timeMonth": 248,
-    "timeYear": 248,
+    "status": "up",
+    "uptime": "99.54%",
+    "uptimeDay": "99.46%",
+    "uptimeWeek": "99.92%",
+    "uptimeMonth": "99.31%",
+    "uptimeYear": "99.54%",
+    "time": 249,
+    "timeDay": 188,
+    "timeWeek": 231,
+    "timeMonth": 250,
+    "timeYear": 249,
     "dailyMinutesDown": {
       "2026-05-16": 55,
       "2026-05-31": 35,
       "2026-06-20": 39,
-      "2026-06-22": 254
+      "2026-06-22": 254,
+      "2026-07-09": 8
     }
   }
 ]
