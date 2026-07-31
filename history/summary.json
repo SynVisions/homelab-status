@@ -11,9 +11,9 @@
     "uptimeMonth": "100.00%",
     "uptimeYear": "99.68%",
     "time": 399,
-    "timeDay": 166,
-    "timeWeek": 248,
-    "timeMonth": 217,
+    "timeDay": 289,
+    "timeWeek": 271,
+    "timeMonth": 218,
     "timeYear": 399,
     "dailyMinutesDown": {
       "2026-05-16": 40,
@@ -28,22 +28,21 @@
     "icon": "https://icons.duckduckgo.com/ip3/overseer.syntheticvisions.net.ico",
     "slug": "overseerr",
     "status": "up",
-    "uptime": "99.66%",
-    "uptimeDay": "99.86%",
-    "uptimeWeek": "99.98%",
+    "uptime": "99.67%",
+    "uptimeDay": "100.00%",
+    "uptimeWeek": "100.00%",
     "uptimeMonth": "100.00%",
-    "uptimeYear": "99.66%",
-    "time": 252,
-    "timeDay": 235,
-    "timeWeek": 280,
-    "timeMonth": 250,
-    "timeYear": 252,
+    "uptimeYear": "99.67%",
+    "time": 253,
+    "timeDay": 263,
+    "timeWeek": 308,
+    "timeMonth": 253,
+    "timeYear": 253,
     "dailyMinutesDown": {
       "2026-05-16": 55,
       "2026-05-31": 35,
       "2026-06-20": 39,
-      "2026-06-22": 254,
-      "2026-07-30": 2
+      "2026-06-22": 254
     }
   }
 ]
