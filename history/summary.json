@@ -4,22 +4,23 @@
     "url": "https://plex.syntheticvisions.net/identity",
     "icon": "https://icons.duckduckgo.com/ip3/plex.syntheticvisions.net.ico",
     "slug": "plex",
-    "status": "down",
+    "status": "up",
     "uptime": "99.75%",
-    "uptimeDay": "100.00%",
+    "uptimeDay": "99.98%",
     "uptimeWeek": "100.00%",
     "uptimeMonth": "100.00%",
     "uptimeYear": "99.75%",
-    "time": 356,
-    "timeDay": 262,
-    "timeWeek": 211,
-    "timeMonth": 219,
-    "timeYear": 356,
+    "time": 355,
+    "timeDay": 229,
+    "timeWeek": 205,
+    "timeMonth": 218,
+    "timeYear": 355,
     "dailyMinutesDown": {
       "2026-05-16": 40,
       "2026-05-31": 35,
       "2026-06-20": 40,
-      "2026-06-22": 254
+      "2026-06-22": 254,
+      "2026-08-24": 0
     }
   },
   {
