@@ -1,7 +1,7 @@
 url: https://plex.syntheticvisions.net/identity
-status: down
-code: 403
-responseTime: 124
-lastUpdated: 2026-09-09T12:46:01.933Z
+status: up
+code: 200
+responseTime: 339
+lastUpdated: 2026-09-09T12:50:50.013Z
 startTime: 2026-05-11T18:58:26.897Z
 generator: Upptime <https://github.com/upptime/upptime>
