@@ -4,7 +4,7 @@
     "url": "https://plex.syntheticvisions.net/identity",
     "icon": "https://icons.duckduckgo.com/ip3/plex.syntheticvisions.net.ico",
     "slug": "plex",
-    "status": "up",
+    "status": "down",
     "uptime": "99.80%",
     "uptimeDay": "100.00%",
     "uptimeWeek": "100.00%",
@@ -12,14 +12,15 @@
     "uptimeYear": "99.80%",
     "time": 315,
     "timeDay": 232,
-    "timeWeek": 217,
+    "timeWeek": 210,
     "timeMonth": 219,
     "timeYear": 315,
     "dailyMinutesDown": {
       "2026-05-16": 40,
       "2026-05-31": 35,
       "2026-06-20": 40,
-      "2026-06-22": 254
+      "2026-06-22": 254,
+      "2026-09-16": 0
     }
   },
   {
