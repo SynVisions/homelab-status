@@ -1,7 +1,7 @@
 url: https://overseer.syntheticvisions.net/api/v1/status
-status: up
-code: 200
-responseTime: 339
-lastUpdated: 2026-10-08T02:28:01.735Z
+status: down
+code: 502
+responseTime: 132
+lastUpdated: 2026-10-08T12:09:09.750Z
 startTime: 2026-05-11T18:58:27.437Z
 generator: Upptime <https://github.com/upptime/upptime>
